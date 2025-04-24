@@ -30,3 +30,16 @@ CREATE TABLE books (
     category_id INT,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
+
+
+CREATE TABLE borrowings (
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    user_id INT NOT NULL, 
+    book_id INT NOT NULL, 
+    borrowed_at DATE NOT NULL, -- La date à laquelle l'utilisateur a emprunté le livre.
+    due_date DATE NOT NULL, -- La date limite de retour du livre.
+    returned_at DATE DEFAULT NULL, -- La date à laquelle le livre a été retourné (NULL si non retourné).
+    status ENUM('borrowed', 'returned') DEFAULT 'borrowed', 
+    FOREIGN KEY (user_id) REFERENCES users(id), 
+    FOREIGN KEY (book_id) REFERENCES books(id)
+);
