@@ -38,6 +38,13 @@ router.get('/userDashboard', (req, res) => {
 });
 
 
+// Tableau de bord admin (après connexion admin)
+router.get('/adminDashboard', (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.redirect('/login');
+  }
+  res.render('adminDashboard', { user: req.session.user });
+});
 
 
 module.exports = router;
