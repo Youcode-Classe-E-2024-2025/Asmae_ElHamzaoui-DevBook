@@ -22,7 +22,16 @@ class Category {
     return result.insertId; // retourne l'ID de la catégorie insérée
   }
 
-  
+  // Mettre à jour une catégorie existante
+  static async updateCategory(id, name) {
+    const [result] = await db.execute(
+      'UPDATE categories SET name = ? WHERE id = ?',
+      [name, id]
+    );
+    return result.affectedRows; // retourne 1 si la mise à jour a été faite
+  }
+
+ 
  
 }
 
