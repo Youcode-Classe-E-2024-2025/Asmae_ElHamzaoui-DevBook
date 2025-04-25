@@ -10,6 +10,17 @@ class User {
     });
   }
 
+  // Obtenir un utilisateur par son ID
+  static async getUserById(id) {
+    const [rows] = await db.execute('SELECT * FROM users WHERE id = ?', [id]);
+     if (rows.length === 0) {
+        return null; // Ou lancer une erreur si préféré
+    }
+    // Exclure le mot de passe
+    const { password, ...userWithoutPassword } = rows[0];
+    return userWithoutPassword;
+  }
+
   
   
 }
