@@ -54,5 +54,6 @@ DESCRIBE users;
 
 SELECT * FROM users;
 
+SELECT * FROM categories;   
 
  UPDATE users SET role = 'admin' WHERE id = 15;
