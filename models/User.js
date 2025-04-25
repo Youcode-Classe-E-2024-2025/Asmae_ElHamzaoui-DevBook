@@ -21,6 +21,15 @@ class User {
     return userWithoutPassword;
   }
 
+  // Créer un utilisateur sans hacher le mot de passe
+  static async createUser(name, email, hashedPassword, role = 'client') { // Recevoir le mot de passe déjà haché
+    const [result] = await db.execute(
+      'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
+      [name, email, hashedPassword, role] // Insérer le mot de passe haché
+    );
+    return result.insertId;
+  }
+  
   
   
 }
