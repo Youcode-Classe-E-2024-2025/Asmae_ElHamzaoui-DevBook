@@ -1,4 +1,4 @@
--- Active: 1733492701458@@127.0.0.1@3306@coco
+-- Active: 1733492701458@@127.0.0.1@3306@devbook
 
 CREATE DATABASE devbook;
 
@@ -8,7 +8,8 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    role ENUM('client', 'admin') NOT NULL DEFAULT 'client'
 );
 
 
@@ -43,3 +44,15 @@ CREATE TABLE borrowings (
     FOREIGN KEY (user_id) REFERENCES users(id), 
     FOREIGN KEY (book_id) REFERENCES books(id)
 );
+
+
+
+SELECT DATABASE();
+
+DESCRIBE users;
+
+
+SELECT * FROM users;
+
+
+ UPDATE users SET role = 'admin' WHERE id = 15;
