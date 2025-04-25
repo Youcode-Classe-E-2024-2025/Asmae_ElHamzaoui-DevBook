@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../controllers/UserController');
 const BookController = require('../controllers/BookController');
+const CategoryController = require('../controllers/CategoryController');
 const path = require('path');
 
 // Page home
@@ -45,6 +46,13 @@ router.get('/adminDashboard', (req, res) => {
   }
   res.render('adminDashboard', { user: req.session.user });
 });
+
+
+router.get('/categories', CategoryController.index);
+router.get('/categories/:id', CategoryController.show);
+router.post('/categories', CategoryController.store);
+router.post('/categories/:id/update', CategoryController.update);
+router.post('/categories/:id/delete', CategoryController.destroy);
 
 
 module.exports = router;
