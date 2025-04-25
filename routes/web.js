@@ -29,6 +29,15 @@ router.post('/login', UserController.login);
 // Déconnexion
 router.get('/logout', UserController.logout);
 
+// Tableau de bord utilisateur (après inscription)
+router.get('/userDashboard', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  res.render('userDashboard', { user: req.session.user });
+});
+
+
 
 
 module.exports = router;
