@@ -27,3 +27,8 @@ app.set('views', path.join(__dirname, 'views'));
 const webRoutes = require('./routes/web');
 app.use('/', webRoutes);
 
+// Démarrage du serveur
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Serveur en écoute sur http://localhost:${PORT}`);
+});
