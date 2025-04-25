@@ -23,3 +23,7 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Liaison avec les routes
+const webRoutes = require('./routes/web');
+app.use('/', webRoutes);
+
