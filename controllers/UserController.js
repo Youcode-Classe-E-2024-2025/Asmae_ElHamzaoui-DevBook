@@ -112,7 +112,27 @@ class UserController {
     }
   }
 
- 
+  // Déconnexion d'un utilisateur
+  static async logout(req, res) { // Ajouter res ici pour pouvoir rediriger
+    console.log('--- Contrôleur: GET /logout ---');
+    try {
+       // Utiliser la méthode statique logout du modèle (si elle existe)
+       // ou simplement détruire la session ici.
+       // La version simple est de détruire la session directement ici.
+        req.session.destroy(err => {
+            if (err) {
+                console.error("Erreur lors de la destruction de la session:", err);
+                // Envoyer une réponse d'erreur même si la déconnexion échoue
+                return res.status(500).send("Erreur lors de la déconnexion");
+            }
+            console.log("Session détruite, redirection vers /login");
+            res.redirect('/login'); // Rediriger après la destruction de la session
+        });
+    } catch(error) {
+       console.error("Erreur inattendue lors de la déconnexion:", error);
+       res.status(500).send("Erreur lors de la déconnexion");
+    }
+ }
  
 }
 
