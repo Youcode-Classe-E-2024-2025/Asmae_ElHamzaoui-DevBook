@@ -70,7 +70,49 @@ class UserController {
     }
   }
 
+   // Méthode de login
+   static async login(req, res) {
+    console.log('--- Contrôleur: POST /login ---');
+    console.log('Corps de la requête (login):', req.body);
 
+     if (!req.body) {
+       console.error("Erreur: req.body est undefined dans login!");
+       return res.status(400).json({ message: "Corps de la requête manquant." });
+    }
+
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      console.log('Erreur: email ou mot de passe manquant');
+      return res.status(400).json({ message: 'Email et mot de passe sont requis.' });
+    }
+
+    try {
+      // Appeler la méthode verifyCredentials du *modèle User* (importé en haut)
+      console.log('Appel de User.verifyCredentials...');
+      const user = await User.verifyCredentials(email, password); // 'User' ici référence le modèle importé
+
+      console.log('Utilisateur vérifié:', user);
+
+      // Enregistrer l'utilisateur dans la session
+      req.session.user = user;
+      console.log('Utilisateur enregistré dans la session:', req.session.user);
+
+      // Redirection en fonction du rôle
+       if (user.role === 'admin') {
+           res.redirect('/adminDashboard');
+       } else {
+           res.redirect('/userDashboard');
+       }
+
+    } catch (error) {
+      // L'erreur vient maintenant directement de User.verifyCredentials si la vérification échoue
+      console.log('Erreur pendant la connexion (contrôleur):', error.message);
+      return res.status(401).json({ message: error.message });
+    }
+  }
+
+ 
  
 }
 
