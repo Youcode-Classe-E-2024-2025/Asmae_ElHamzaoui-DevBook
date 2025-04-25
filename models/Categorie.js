@@ -31,7 +31,14 @@ class Category {
     return result.affectedRows; // retourne 1 si la mise à jour a été faite
   }
 
- 
+  // Supprimer une catégorie par son ID
+  static async deleteCategory(id) {
+    const [result] = await db.execute(
+      'DELETE FROM categories WHERE id = ?',
+      [id]
+    );
+    return result.affectedRows; // retourne 1 si la suppression a été faite
+  }
  
 }
 
