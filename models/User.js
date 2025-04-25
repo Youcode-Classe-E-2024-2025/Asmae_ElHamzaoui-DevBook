@@ -30,7 +30,29 @@ class User {
     return result.insertId;
   }
   
+  // Méthode pour vérifier les identifiants lors du login
+  static async verifyCredentials(email, password) {
+    console.log(`Vérification des identifiants pour: ${email}`);
+    const [rows] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
   
+    if (rows.length === 0) {
+      console.log(`Utilisateur non trouvé: ${email}`);
+      throw new Error('Email ou mot de passe incorrect.');
+    }
+  
+    const user = rows[0]; // Contient le hash du mot de passe depuis la DB
+  
+    // Comparer directement le mot de passe fourni avec celui stocké dans la base de données
+    if (password !== user.password) {
+      console.log(`Mot de passe incorrect pour: ${email}`);
+      throw new Error('Email ou mot de passe incorrect.');
+    }
+  
+    console.log(`Identifiants valides pour: ${email}`);
+    // Retourner l'utilisateur sans le mot de passe hashé
+    const { password: _, ...userWithoutPassword } = user;
+    return userWithoutPassword;
+  }
   
 }
 
