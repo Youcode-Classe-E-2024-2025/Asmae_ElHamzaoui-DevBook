@@ -13,6 +13,16 @@ class Category {
     return rows[0];
   }
 
+   // Créer une nouvelle catégorie
+   static async createCategory(name) {
+    const [result] = await db.execute(
+      'INSERT INTO categories (name) VALUES (?)',
+      [name]
+    );
+    return result.insertId; // retourne l'ID de la catégorie insérée
+  }
+
+  
  
 }
 
