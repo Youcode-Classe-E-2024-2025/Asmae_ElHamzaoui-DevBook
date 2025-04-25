@@ -34,7 +34,14 @@ class Book {
     return result.affectedRows; // retourne 1 si la mise à jour a été faite
   }
 
-  
+  // Supprimer un livre par son ID
+  static async deleteBook(id) {
+    const [result] = await db.execute(
+      'DELETE FROM books WHERE id = ?',
+      [id]
+    );
+    return result.affectedRows; // retourne 1 si la suppression a été faite
+  }
 }
 
 module.exports = Book;
