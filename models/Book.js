@@ -13,6 +13,17 @@ class Book {
     return rows[0];
   }
 
+  
+  // Créer un nouveau livre
+  static async createBook(title, stock, page_count, genre, author, category_id) {
+    const [result] = await db.execute(
+      'INSERT INTO books (title, stock, page_count, genre, author, category_id) VALUES (?, ?, ?, ?, ?, ?)',
+      [title, stock, page_count, genre, author, category_id]
+    );
+    return result.insertId; // retourne l'ID du livre inséré
+  }
+
+ 
 }
 
 module.exports = Book;
