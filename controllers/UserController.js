@@ -28,6 +28,49 @@ class UserController {
     return result.insertId;
   }
 
+  static async register(req, res) {
+    console.log('--- Contrôleur: POST /register ---');
+    console.log('Request Body:', req.body);
+
+    if (!req.body) {
+      console.error("Erreur: req.body est undefined!");
+      return res.status(400).json({ message: "Corps de la requête manquant." });
+    }
+
+    const { name, email, password, role = 'client' } = req.body;
+
+     if (!name || !email || !password) {
+        return res.status(400).json({ message: 'Nom, email et mot de passe sont requis.' });
+    }
+
+    try {
+      // Appelle createUser du modèle User (qui est importé)
+      const userId = await User.createUser(name, email, password, role);
+      console.log(`Utilisateur créé avec l'ID: ${userId}`);
+
+      // Récupérer l'utilisateur (sans mot de passe si possible)
+      const user = await User.getUserById(userId); // Méthode du modèle
+      if (!user) {
+        return res.status(500).json({ message: "Impossible de récupérer l'utilisateur après création." });
+      }
+
+      // Stocker dans la session (sans le mot de passe)
+      const { password: _, ...userSessionData } = user;
+      req.session.user = userSessionData;
+      console.log('Utilisateur enregistré dans la session:', req.session.user);
+
+      res.redirect('/userDashboard');
+
+    } catch (error) {
+      console.error("Erreur lors de l'inscription:", error);
+       if (error.code === 'ER_DUP_ENTRY') {
+           return res.status(409).json({ message: 'Cet email est déjà utilisé.' });
+       }
+      res.status(500).json({ message: "Une erreur s'est produite lors de l'inscription." });
+    }
+  }
+
+
  
 }
 
