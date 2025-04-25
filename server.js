@@ -19,3 +19,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
+// Configuration de EJS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
